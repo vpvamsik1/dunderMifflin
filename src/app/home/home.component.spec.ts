@@ -42,5 +42,27 @@ describe('HomeComponent', () => {
     console.log("our button behavior",btnHtml);
     console.log("from model", component.signupForm.valid);
     expect(true).toBeTruthy();
-  })
+  });
+
+  fit('should enable the button if input value matches regex', () => {
+    component.signupForm.value.email = "dsf@dsds.com";
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    // console.log(compiled);
+    const btn = compiled.querySelector(".btn");
+    // console.log(btn);
+    expect(btn.hasAttribute("disabled")).toBeFalse();
+  });
+
+  fit('should enable the button if input value matches regex', () => {
+    component.signupForm.value.email = "sea.moin@gmail.c";
+    console.log(component.signupForm.value.email);
+    fixture.detectChanges();
+    console.log(component.signupForm.invalid);
+    const compiled = fixture.nativeElement;
+    // console.log(compiled);
+    const btn = compiled.querySelector(".btn");
+    console.log(btn);
+    // expect(btn.hasAttribute("disabled")).toBeTrue();
+  });
 });

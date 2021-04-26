@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   test: number = 5;
   id: number = 0;
   name: string;
+  regex: string;
 
   users:Object = {};
 
@@ -59,11 +60,8 @@ export class HomeComponent implements OnInit {
    
   }
 
-  
-
   ngOnInit(): void {
+    this.regex = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$";
   }
-
-
 
 }
