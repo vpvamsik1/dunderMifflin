@@ -30,9 +30,12 @@ export class HomeComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.signupForm);
-    console.log(this.signupForm.value.email);
-    this.rEmail = this.signupForm.value.email;
+  //   console.log(this.signupForm);
+  //   console.log(this.signupForm.value.email);
+  //   this.rEmail = this.signupForm.value.email;
+      if(this.signupForm.form.valid){
+        this.getDataFromAPI();
+      }
   }
   
   getDataFromAPI(){ 
