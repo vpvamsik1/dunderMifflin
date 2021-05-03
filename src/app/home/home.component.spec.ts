@@ -5,19 +5,26 @@ import { JSONPlaceholderService } from '../services/jsonplaceholder.service'
 import { from, of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
-  let JSONPlaceholder : JSONPlaceholderService;
+  let JSONPlaceholder: JSONPlaceholderService;
+  let router = {
+    navigate: jasmine.createSpy('navigate')
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent ], 
-      imports: [ RouterTestingModule, HttpClientModule, FormsModule ],
-      providers: [ JSONPlaceholderService ]
+      declarations: [HomeComponent],
+      imports: [RouterTestingModule, HttpClientModule, FormsModule],
+      providers: [
+        JSONPlaceholderService,
+        { provide: Router, useValue: router }
+      ]
     })
-    .compileComponents();
+      .compileComponents();
     JSONPlaceholder = TestBed.inject(JSONPlaceholderService);
   }));
 
@@ -70,8 +77,8 @@ describe('HomeComponent', () => {
   //   // expect(btn.hasAttribute("disabled")).toBeTrue();
   // });
 
-  it('should enable the button if input value matches regex', ()=>{
-    component.rEmail="sea.moiom";
+  it('should enable the button if input value matches regex', () => {
+    component.rEmail = "sea.moiom";
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
     const btn = compiled.querySelector(".btn");
@@ -79,27 +86,83 @@ describe('HomeComponent', () => {
     expect(btn.hasAttribute("disabled")).toBeFalse();
   });
 
-  it('should disable the button if input value does not matches regex', ()=>{
-    component.rEmail="sea.min";
-    component.signupForm.form.setErrors({'invalid':true, 'valid':false});
+  it('should disable the button if input value does not matches regex', () => {
+    component.rEmail = "sea.min";
+    component.signupForm.form.setErrors({ 'invalid': true, 'valid': false });
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
     const btn = compiled.querySelector(".btn");
     console.log(btn);
     expect(btn.hasAttribute("disabled")).toBeTrue();
   });
-  
-  it('should show invalid email if email is not in JSON', ()=>{
+
+  it('should show invalid email if email is not in JSON', () => {
     component.rEmail = "vpcvasffd@gmail.com";
-    spyOn(JSONPlaceholder,'getData').and.returnValue(of({}))
+    spyOn(JSONPlaceholder, 'getData').and.returnValue(of(mockUsers))
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
     const btn = compiled.querySelector(".btn");
     btn.click();
     expect(component.emailValid).toBeFalse();
-
   })
 
-  const mockUsers = {};
+  it('should show invalid email if email is not in JSON', () => {
+    component.rEmail = "vpcvasffd@gmail.com";
+    spyOn(JSONPlaceholder, 'getData').and.returnValue(of(mockUsers))
+    fixture.detectChanges();
+    component.onSubmit();
+    fixture.detectChanges();
+    expect(component.emailValid).toBeFalse();
+  });
+
+  
+
+  const mockUsers = [
+    {
+      "id": 1,
+      "name": "Leanne Graham",
+      "username": "Bret",
+      "email": "Sincere@april.biz",
+      "address": {
+        "street": "Kulas Light",
+        "suite": "Apt. 556",
+        "city": "Gwenborough",
+        "zipcode": "92998-3874",
+        "geo": {
+          "lat": "-37.3159",
+          "lng": "81.1496"
+        }
+      },
+      "phone": "1-770-736-8031 x56442",
+      "website": "hildegard.org",
+      "company": {
+        "name": "Romaguera-Crona",
+        "catchPhrase": "Multi-layered client-server neural-net",
+        "bs": "harness real-time e-markets"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Ervin Howell",
+      "username": "Antonette",
+      "email": "Shanna@melissa.tv",
+      "address": {
+        "street": "Victor Plains",
+        "suite": "Suite 879",
+        "city": "Wisokyburgh",
+        "zipcode": "90566-7771",
+        "geo": {
+          "lat": "-43.9509",
+          "lng": "-34.4618"
+        }
+      },
+      "phone": "010-692-6593 x09125",
+      "website": "anastasia.net",
+      "company": {
+        "name": "Deckow-Crist",
+        "catchPhrase": "Proactive didactic contingency",
+        "bs": "synergize scalable supply-chains"
+      }
+    }];
 
 });

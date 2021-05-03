@@ -46,10 +46,11 @@ export class ProfileComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.id = +params.id
       this.name = params.name;
+      this.getDataFromAPI(this.id);
     });
     console.log(this.id);
 
-    this.getDataFromAPI(this.id);
+    
   }
 
 
