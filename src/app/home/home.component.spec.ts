@@ -14,123 +14,6 @@ describe('HomeComponent', () => {
   let router = {
     navigate: jasmine.createSpy('navigate')
   }
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [HomeComponent],
-      imports: [RouterTestingModule, HttpClientModule, FormsModule],
-      providers: [
-        JSONPlaceholderService,
-        { provide: Router, useValue: router }
-      ]
-    })
-      .compileComponents();
-    JSONPlaceholder = TestBed.inject(JSONPlaceholderService);
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  // it('should enable the button if input has valid email', () => {
-  //   component.signupForm.value.email = "abc1";
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement;
-  //   // console.log(compiled);
-  //   const emailHtml = compiled.querySelector("#email");
-  //   emailHtml.setAttribute("value", "abc");
-  //   fixture.detectChanges();
-  //   const btnHtml = compiled.querySelector(".btn");
-  //   console.log(compiled);
-  //   console.log("our button behavior",btnHtml);
-  //   console.log("from model", component.signupForm.valid);
-  //   expect(true).toBeTruthy();
-  // });
-
-  // fit('should enable the button if input value matches regex', () => {
-  //   component.signupForm.value.email = "dsf@dsds.com";
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement;
-  //   // console.log(compiled);
-  //   const btn = compiled.querySelector(".btn");
-  //   // console.log(btn);
-  //   expect(btn.hasAttribute("disabled")).toBeFalse();
-  // });
-
-  // fit('should not enable the button if input value matches regex', () => {
-  //   // component.signupForm.value.email = "sea.moi";
-  //   // console.log(component.signupForm.value.email);
-  //   // fixture.detectChanges();
-  //   // console.log(component.signupForm.invalid);
-  //   const compiled = fixture.nativeElement;
-  //   // compiled.querySelector("#email").value = "sea.moi";
-  //   fixture.detectChanges();
-  //   // console.log(compiled);
-  //   const btn = compiled.querySelector(".btn");
-  //   console.log(btn);
-  //   // expect(btn.hasAttribute("disabled")).toBeTrue();
-  // });
-
-  it('should enable the button if input value matches regex', () => {
-    component.rEmail = "sea.moiom";
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    const btn = compiled.querySelector(".btn");
-    console.log(btn);
-    expect(btn.hasAttribute("disabled")).toBeFalse();
-  });
-
-  it('should disable the button if input value does not matches regex', () => {
-    component.rEmail = "sea.min";
-    component.signupForm.form.setErrors({ 'invalid': true, 'valid': false });
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    const btn = compiled.querySelector(".btn");
-    console.log(btn);
-    expect(btn.hasAttribute("disabled")).toBeTrue();
-  });
-
-  it('should disable the button if input value does not matches regex', () => {
-    // component.rEmail = "sea.min";
-    component.signupForm.form.setErrors({ 'invalid': true, 'valid': false });
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    const btn = compiled.querySelector(".btn");
-    console.log(btn);
-    // expect(btn.hasAttribute("disabled")).toBeTrue();
-  });
-
-
-  it('should show invalid email if email is not in JSON', () => {
-    component.rEmail = "vpcvasffd@gmail.com";
-    spyOn(JSONPlaceholder, 'getData').and.returnValue(of(mockUsers))
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    const btn = compiled.querySelector(".btn");
-    btn.click();
-    expect(component.emailValid).toBeFalse();
-  });
-
-  fit('should redirect to profile page if email found', () => {
-    component.rEmail = "Chaim_McDermott@dana.io";
-    spyOn(JSONPlaceholder, 'getData').and.returnValue(of(mockUsers))
-    fixture.detectChanges();
-  //   const compiled = fixture.nativeElement;
-  //   const btn = compiled.querySelector(".btn");
-  //   btn.click();
-  //   expect(component.emailValid).toBeFalse();
-    component.onSubmit();
-    fixture.detectChanges();
-    expect(router.navigate).toHaveBeenCalledWith(['/profile', 9])
-  });
-  
-
   const mockUsers = 
   [
     {
@@ -363,6 +246,125 @@ describe('HomeComponent', () => {
         "bs": "target end-to-end models"
       }
     }
-  ]
+  ];
 
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [HomeComponent],
+      imports: [RouterTestingModule, HttpClientModule, FormsModule],
+      providers: [
+        JSONPlaceholderService,
+        { provide: Router, useValue: router }
+      ]
+    })
+      .compileComponents();
+    JSONPlaceholder = TestBed.inject(JSONPlaceholderService);
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HomeComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  // it('should enable the button if input has valid email', () => {
+  //   component.signupForm.value.email = "abc1";
+  //   fixture.detectChanges();
+  //   const compiled = fixture.nativeElement;
+  //   // console.log(compiled);
+  //   const emailHtml = compiled.querySelector("#email");
+  //   emailHtml.setAttribute("value", "abc");
+  //   fixture.detectChanges();
+  //   const btnHtml = compiled.querySelector(".btn");
+  //   console.log(compiled);
+  //   console.log("our button behavior",btnHtml);
+  //   console.log("from model", component.signupForm.valid);
+  //   expect(true).toBeTruthy();
+  // });
+
+  // fit('should enable the button if input value matches regex', () => {
+  //   component.signupForm.value.email = "dsf@dsds.com";
+  //   fixture.detectChanges();
+  //   const compiled = fixture.nativeElement;
+  //   // console.log(compiled);
+  //   const btn = compiled.querySelector(".btn");
+  //   // console.log(btn);
+  //   expect(btn.hasAttribute("disabled")).toBeFalse();
+  // });
+
+  // fit('should not enable the button if input value matches regex', () => {
+  //   // component.signupForm.value.email = "sea.moi";
+  //   // console.log(component.signupForm.value.email);
+  //   // fixture.detectChanges();
+  //   // console.log(component.signupForm.invalid);
+  //   const compiled = fixture.nativeElement;
+  //   // compiled.querySelector("#email").value = "sea.moi";
+  //   fixture.detectChanges();
+  //   // console.log(compiled);
+  //   const btn = compiled.querySelector(".btn");
+  //   console.log(btn);
+  //   // expect(btn.hasAttribute("disabled")).toBeTrue();
+  // });
+
+  it('should enable the button if input value matches regex', () => {
+    component.rEmail = "sea.moiom";
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    const btn = compiled.querySelector(".btn");
+    console.log(btn);
+    expect(btn.hasAttribute("disabled")).toBeFalse();
+  });
+
+  it('should disable the button if input value does not matches regex', () => {
+    component.rEmail = "sea.min";
+    component.signupForm.form.setErrors({ 'invalid': true, 'valid': false });
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    const btn = compiled.querySelector(".btn");
+    console.log(btn);
+    expect(btn.hasAttribute("disabled")).toBeTrue();
+  });
+
+  it('should disable the button if input value does not matches regex', () => {
+    // component.rEmail = "sea.min";
+    component.signupForm.form.setErrors({ 'invalid': true, 'valid': false });
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    const btn = compiled.querySelector(".btn");
+    console.log(btn);
+    // expect(btn.hasAttribute("disabled")).toBeTrue();
+  });
+
+
+  it('should show invalid email if email is not in JSON', () => {
+    component.rEmail = "vpcvasffd@gmail.com";
+    spyOn(JSONPlaceholder, 'getData').and.returnValue(of(mockUsers))
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    const btn = compiled.querySelector(".btn");
+    btn.click();
+    expect(component.emailValid).toBeFalse();
+  });
+
+  fit('should redirect to profile page if email found', () => {
+    component.rEmail = "Chaim_McDermott@dana.io";
+    spyOn(JSONPlaceholder, 'getData').and.returnValue(of(mockUsers))
+    fixture.detectChanges();
+  //   const compiled = fixture.nativeElement;
+  //   const btn = compiled.querySelector(".btn");
+  //   btn.click();
+  //   expect(component.emailValid).toBeFalse();
+    component.onSubmit();
+    fixture.detectChanges();
+    console.log("hello" + mockUsers[8].email);
+    // console.log(mockUsers[10].email);
+    expect(router.navigate).toHaveBeenCalledWith(['/profile', 9]);
+  });
+  
+
+  
 });

@@ -6,11 +6,11 @@
           <div class="card-header">
             Profile Detail
           </div>
-          <ul class="list-group list-group-flush">
+          <ul class="list-group list-group-flush" *ngIf="user">
             <li class="list-group-item"><b>{{ name }}</b></li>
-            <li class="list-group-item" id="address"> <i class="fas fa-map-marked-alt"></i><span>{{ street }} {{ suite }} {{ city }} {{ zipcode }}</span></li>
-            <li class="list-group-item" id="phone"> <i class="fas fa-phone-alt"></i><span>{{ phone }}</span></li>
-            <li class="list-group-item" id="mail"> <i class="fas fa-envelope"></i><span>{{ mail }}</span></li>
+            <li class="list-group-item" id="address"> <i class="fas fa-map-marked-alt"></i><span>{{ user.address.street }} {{ user.address.suite }} {{ user.address.city }} {{ user.address.zipcode }}</span></li>
+            <li class="list-group-item" id="phone"> <i class="fas fa-phone-alt"></i><span>{{ user.phone }}</span></li>
+            <li class="list-group-item" id="mail"> <i class="fas fa-envelope"></i><span>{{ user.email }}</span></li>
           </ul>
         </div>
       </div>
