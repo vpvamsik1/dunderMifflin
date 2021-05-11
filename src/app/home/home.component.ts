@@ -12,9 +12,9 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('f') signupForm: NgForm;
 
-  data:Array<any>;
+  data: Array<any>;
   rEmail = '';
-  data2:Array<any>;
+  data2: Array<any>;
   emailValid = true;
   index: number = 0;
   test: number = 5;
@@ -22,23 +22,36 @@ export class HomeComponent implements OnInit {
   name: string;
   regex: string;
 
-  users:Object = {};
+  users: Object = {};
+  returnUrl: string;
 
-  constructor(private JSONPlaceholder: JSONPlaceholderService, private router: Router) {
+  constructor(
+    private JSONPlaceholder: JSONPlaceholderService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.data = new Array<any>();
     this.data2 = new Array<any>();
   }
 
-  onSubmit() {
-  //   console.log(this.signupForm);
-  //   console.log(this.signupForm.value.email);
-  //   this.rEmail = this.signupForm.value.email;
-      if(this.signupForm.form.valid){
-        this.getDataFromAPI();
-      }
+  ngOnInit(): void {
+    this.regex = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$";
+    this.initReturnUrl();
   }
-  
-  getDataFromAPI(){ 
+
+  initReturnUrl(): void {
+		this.activatedRoute.queryParams.subscribe((params) => {
+			this.returnUrl = params["returnUrl"] || "";
+		});
+	}
+
+  onSubmit() {
+    if (this.signupForm.form.valid) {
+      this.getDataFromAPI();
+    }
+  }
+
+  getDataFromAPI() {
     this.JSONPlaceholder.getData().subscribe((data) => {
 
       this.data = data;
@@ -47,7 +60,7 @@ export class HomeComponent implements OnInit {
         this.data2.push(data[i].email);
       }
       console.log(this.data2);
-      if(!this.data2.includes(this.rEmail)) {
+      if (!this.data2.includes(this.rEmail)) {
         this.emailValid = false;
       } else {
         console.log(this.data2.indexOf(this.rEmail));
@@ -61,11 +74,7 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['/profile', this.id]);
       }
     })
-   
-  }
 
-  ngOnInit(): void {
-    this.regex = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$";
   }
 
 }
