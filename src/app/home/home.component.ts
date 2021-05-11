@@ -57,6 +57,7 @@ export class HomeComponent implements OnInit {
         this.id = this.data[this.index].id;
         this.name = this.data[this.index].name;
         console.log(this.name);
+        localStorage.setItem("activeUser", JSON.stringify(this.data[this.index]));
         this.router.navigate(['/profile', this.id]);
       }
     })

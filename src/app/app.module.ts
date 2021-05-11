@@ -6,10 +6,11 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'profile/:id', component: ProfileComponent }
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] }
 
 ];
 

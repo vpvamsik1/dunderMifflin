@@ -350,7 +350,7 @@ describe('HomeComponent', () => {
     expect(component.emailValid).toBeFalse();
   });
 
-  fit('should redirect to profile page if email found', () => {
+  it('should redirect to profile page if email found', () => {
     component.rEmail = "Chaim_McDermott@dana.io";
     spyOn(JSONPlaceholder, 'getData').and.returnValue(of(mockUsers))
     fixture.detectChanges();

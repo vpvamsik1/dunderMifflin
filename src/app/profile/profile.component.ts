@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { JSONPlaceholderService } from '../services/jsonplaceholder.service'
 
 @Component({
@@ -21,7 +21,11 @@ export class ProfileComponent implements OnInit {
   phone: string;
   mail: string;
 
-  constructor(private JSONPlaceholder: JSONPlaceholderService, private route: ActivatedRoute) { 
+  constructor(
+    private JSONPlaceholder: JSONPlaceholderService, 
+    private route: ActivatedRoute,
+    private router: Router
+    ) { 
     // this.data = new Array<any>();
   
   }
@@ -39,8 +43,10 @@ export class ProfileComponent implements OnInit {
       // this.phone = this.data[x - 1].phone;
       // this.mail = this.data[x - 1].email;
       // variable hoisting
-      const user = data.filter((u)=>u.id==x);
-      // console.log(user);
+      const user = data.filter(
+        u=>u.id==x
+      );
+      console.log(user);
       if(user.length===1){
         this.user = user[0];
       }
@@ -54,11 +60,14 @@ export class ProfileComponent implements OnInit {
       this.name = params.name;
       this.getDataFromAPI(this.id);
     });
-    console.log(this.id);
-
-    
+    console.log(this.id);    
   }
 
+
+  logout(){
+    localStorage.removeItem("activeUser");
+    this.router.navigate(['/']);
+  }
 
 
 }
