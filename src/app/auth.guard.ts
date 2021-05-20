@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const activeUser = JSON.parse(localStorage.getItem("activeUser"));
-    console.log("from guard",activeUser);
+    // console.log("from guard",activeUser);
     if(activeUser) {
       const id_in_url = Number( state.url.split("/").pop());
       if(id_in_url === Number(activeUser.id)){
@@ -24,8 +24,14 @@ export class AuthGuard implements CanActivate {
         return false;
       }
     } else {
-      this.router.navigate(['/']);
-      return false;
+      if(state.url.indexOf('profile')!=-1){
+        const id_in_url = Number( state.url.split("/").pop());
+        this.router.navigate(['/'],{queryParams:{returnUrl:id_in_url}});
+        return false; 
+      }else{
+        this.router.navigate(['/']);
+        return false;
+      }
     }
   }
   

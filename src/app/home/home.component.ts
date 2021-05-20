@@ -23,7 +23,9 @@ export class HomeComponent implements OnInit {
   regex: string;
 
   users: Object = {};
-  returnUrl: string;
+  returnUrl: boolean;
+  returnId: Number;
+  rightEmail: string="";
 
   constructor(
     private JSONPlaceholder: JSONPlaceholderService,
@@ -41,7 +43,18 @@ export class HomeComponent implements OnInit {
 
   initReturnUrl(): void {
 		this.activatedRoute.queryParams.subscribe((params) => {
-			this.returnUrl = params["returnUrl"] || "";
+			this.returnId = params["returnUrl"] || "";
+      
+      if(this.returnId){
+        this.returnUrl=true;
+        this.JSONPlaceholder.getData().subscribe((users:any[])=>{
+          const user = users.filter((u)=>u.id == this.returnId);
+          
+          if(user.length==1){
+            this.rightEmail = user[0].email;
+          }
+        })
+      }
 		});
 	}
 
